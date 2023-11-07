@@ -6,8 +6,11 @@ import java.util.Scanner;
 
 public class Application {
     private final Scanner sc = new Scanner(System.in);
-    private  final SayingService service = new SayingService();
+    private final SayingService service = new SayingService();
+
     public void run() {
+        dummyDataInit(); // Add test data
+
         String request = "";
         System.out.println("== 명언 앱 ==");
 
@@ -31,6 +34,23 @@ public class Application {
 
                 System.out.println(saveId + "번 명언이 등록되었습니다.");
             }
+
+            // list
+            if (request.equals("목록")) {
+                System.out.println("번호\t/\t작가\t/\t명언\n----------------------");
+                for (Saying saying : service.findAll()) {
+                    System.out.println(saying.getId() + "\t/\t" + saying.getAuthor() + "\t/\t" + saying.getContent());
+                }
+            }
+        }
+    }
+
+    public void dummyDataInit() {
+        for (int i = 0; i < 5; i++) {
+            Saying saying = new Saying();
+            saying.setContent("test content " + (i + 1));
+            saying.setAuthor("test author " + (i + 1));
+            service.save(saying);
         }
     }
 }
