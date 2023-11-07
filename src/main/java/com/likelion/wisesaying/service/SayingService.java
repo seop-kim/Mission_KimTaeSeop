@@ -3,6 +3,7 @@ package com.likelion.wisesaying.service;
 import com.likelion.wisesaying.domain.Saying;
 import com.likelion.wisesaying.repository.SayingRepository;
 import com.likelion.wisesaying.util.generator.IdGenerator;
+import java.util.List;
 
 public class SayingService {
     private final SayingRepository repository = SayingRepository.getInstance();
@@ -13,5 +14,9 @@ public class SayingService {
         saying.setId(saveId);
         repository.save(saying);
         return saveId;
+    }
+
+    public List<Saying> findAll() {
+        return repository.findAll();
     }
 }
