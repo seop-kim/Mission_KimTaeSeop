@@ -4,6 +4,8 @@ import com.likelion.wisesaying.domain.Saying;
 import com.likelion.wisesaying.repository.SayingRepository;
 import com.likelion.wisesaying.util.convertor.RequestConverter;
 import com.likelion.wisesaying.util.generator.IdGenerator;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class SayingService {
@@ -20,7 +22,9 @@ public class SayingService {
     }
 
     public List<Saying> findAll() {
-        return repository.findAll();
+        List<Saying> sayings = repository.findAll();
+        Collections.reverse(sayings);
+        return sayings;
     }
 
     public Long delete(String request) {
