@@ -2,6 +2,7 @@ package com.likelion.wisesaying;
 
 import com.likelion.wisesaying.domain.Saying;
 import com.likelion.wisesaying.service.SayingService;
+import com.likelion.wisesaying.util.exception.CustomRequestException;
 import java.util.Scanner;
 
 public class Application {
@@ -45,7 +46,17 @@ public class Application {
 
             // delete
             if (request.startsWith("삭제")) {
-                Long deleteId = service.delete(request);
+                Long deleteId;
+
+                try {
+                    deleteId = service.delete(request);
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                    continue;
+                } catch (CustomRequestException e) {
+                    continue;
+                }
+
                 System.out.println(deleteId + "번 명언이 삭제되었습니다.");
             }
         }
