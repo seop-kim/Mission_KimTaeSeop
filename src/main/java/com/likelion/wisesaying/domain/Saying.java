@@ -6,7 +6,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Saying {
-    Long id;
-    String content;
-    String author;
+    private Long id;
+    private String content;
+    private String author;
+
+    @Override
+    public String toString() {
+        return id + "\t/\t" + author + "\t/\t" + content;
+
+    }
 }
