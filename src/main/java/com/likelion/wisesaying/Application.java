@@ -42,6 +42,12 @@ public class Application {
                     System.out.println(saying.getId() + "\t/\t" + saying.getAuthor() + "\t/\t" + saying.getContent());
                 }
             }
+
+            // delete
+            if (request.startsWith("삭제")) {
+                Long deleteId = service.delete(request);
+                System.out.println(deleteId + "번 명언이 삭제되었습니다.");
+            }
         }
     }
 
