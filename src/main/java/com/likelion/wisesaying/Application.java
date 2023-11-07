@@ -5,6 +5,7 @@ import com.likelion.wisesaying.service.SayingService;
 import com.likelion.wisesaying.util.exception.CustomRequestException;
 import com.likelion.wisesaying.util.file.LocalDataLoad;
 import com.likelion.wisesaying.util.file.LocalDataSave;
+import com.likelion.wisesaying.util.gson.GsonDataConverter;
 import java.util.Scanner;
 
 public class Application {
@@ -12,11 +13,11 @@ public class Application {
     private final SayingService service = new SayingService();
     private final LocalDataSave localDataSave = new LocalDataSave();
     private final LocalDataLoad localDataLoad = new LocalDataLoad();
+    private final GsonDataConverter gson = new GsonDataConverter();
+
 
     public void run() {
         localDataLoad.load();
-        // dummyDataInit(); // Add test data
-
         String request = "";
         System.out.println("== 명언 앱 ==");
 
@@ -44,7 +45,7 @@ public class Application {
             // list
             if (request.equals("목록")) {
                 System.out.println("번호\t/\t작가\t/\t명언\n----------------------");
-                for (Saying saying : service.findAll()) {
+                for (Saying saying : service.findAllReverse()) {
                     System.out.println(saying.getId() + "\t/\t" + saying.getAuthor() + "\t/\t" + saying.getContent());
                 }
             }
@@ -85,8 +86,14 @@ public class Application {
                 saying.setAuthor(updateAuthor);
                 saying.setContent(updateContent);
             }
+
+            // build
+            if (request.equals("빌드")) {
+                String jsonStr = gson.sayingToJson(service.findAll());
+                localDataSave.saveJson(jsonStr);
+            }
         }
-        localDataSave.save();
+        localDataSave.saveTxt();
     }
 
     public void dummyDataInit() {
