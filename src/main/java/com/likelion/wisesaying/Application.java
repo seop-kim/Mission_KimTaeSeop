@@ -3,14 +3,19 @@ package com.likelion.wisesaying;
 import com.likelion.wisesaying.domain.Saying;
 import com.likelion.wisesaying.service.SayingService;
 import com.likelion.wisesaying.util.exception.CustomRequestException;
+import com.likelion.wisesaying.util.file.LocalDataLoad;
+import com.likelion.wisesaying.util.file.LocalDataSave;
 import java.util.Scanner;
 
 public class Application {
     private final Scanner sc = new Scanner(System.in);
     private final SayingService service = new SayingService();
+    private final LocalDataSave localDataSave = new LocalDataSave();
+    private final LocalDataLoad localDataLoad = new LocalDataLoad();
 
     public void run() {
-        dummyDataInit(); // Add test data
+        localDataLoad.load();
+        // dummyDataInit(); // Add test data
 
         String request = "";
         System.out.println("== 명언 앱 ==");
@@ -81,6 +86,7 @@ public class Application {
                 saying.setContent(updateContent);
             }
         }
+        localDataSave.save();
     }
 
     public void dummyDataInit() {
