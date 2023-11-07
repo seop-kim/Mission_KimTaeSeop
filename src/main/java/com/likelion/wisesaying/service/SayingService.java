@@ -24,13 +24,21 @@ public class SayingService {
     }
 
     public Long delete(String request) {
-        Long deleteId = converter.splitId(request);
+        Long findId = convertId(request);
+        repository.delete(findId);
+        return findId;
+    }
 
-        if (repository.findOne(deleteId) == null) {
-            throw new IllegalArgumentException(deleteId + "번 명언은 존재하지 않습니다.");
+    public Saying update(String request) {
+        Long findId = convertId(request);
+        return repository.findOne(findId);
+    }
+
+    private Long convertId(String request) {
+        Long findId = converter.splitId(request);
+        if (repository.findOne(findId) == null) {
+            throw new IllegalArgumentException(findId + "번 명언은 존재하지 않습니다.");
         }
-
-        repository.delete(deleteId);
-        return deleteId;
+        return findId;
     }
 }

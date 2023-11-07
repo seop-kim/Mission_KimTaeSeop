@@ -59,6 +59,27 @@ public class Application {
 
                 System.out.println(deleteId + "번 명언이 삭제되었습니다.");
             }
+
+            // update
+            if (request.startsWith("수정")) {
+                Saying saying;
+                try {
+                    saying = service.update(request);
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                    continue;
+                } catch (CustomRequestException e) {
+                    continue;
+                }
+                System.out.println("명언(기존) : " + saying.getContent());
+                System.out.print("명언 : ");
+                String updateContent = sc.nextLine();
+                System.out.println("작가(기존) : " + saying.getAuthor());
+                System.out.print("작가 : ");
+                String updateAuthor = sc.nextLine();
+                saying.setAuthor(updateAuthor);
+                saying.setContent(updateContent);
+            }
         }
     }
 
