@@ -22,8 +22,11 @@ public class Application {
                 String requestAuthor = sc.nextLine();
 
                 Saying saying = new Saying();
+                saying.setId(1L);
                 saying.setContent(requestContent);
                 saying.setAuthor(requestAuthor);
+
+                System.out.println(saying.getId() + "번 명언이 등록되었습니다.");
             }
         }
     }
