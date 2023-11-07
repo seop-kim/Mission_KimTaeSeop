@@ -21,6 +21,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // gson
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
 
 
