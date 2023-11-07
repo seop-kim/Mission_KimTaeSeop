@@ -25,6 +25,11 @@ public class SayingService {
 
     public Long delete(String request) {
         Long deleteId = converter.splitId(request);
+
+        if (repository.findOne(deleteId) == null) {
+            throw new IllegalArgumentException(deleteId + "번 명언은 존재하지 않습니다.");
+        }
+
         repository.delete(deleteId);
         return deleteId;
     }
