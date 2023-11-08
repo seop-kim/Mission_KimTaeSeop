@@ -3,14 +3,20 @@ package com.likelion.wisesaying.service;
 import com.likelion.wisesaying.domain.Saying;
 import com.likelion.wisesaying.repository.SayingRepository;
 import com.likelion.wisesaying.util.convertor.RequestConverter;
+import com.likelion.wisesaying.util.file.LocalDataLoad;
+import com.likelion.wisesaying.util.file.LocalDataSave;
 import com.likelion.wisesaying.util.generator.IdGenerator;
+import com.likelion.wisesaying.util.gson.GsonDataConverter;
 import java.util.Collections;
 import java.util.List;
 
 public class SayingService {
     private final SayingRepository repository = SayingRepository.getInstance();
-    private final IdGenerator generator = new IdGenerator();
     private final RequestConverter converter = new RequestConverter();
+    private final LocalDataLoad localDataLoad = new LocalDataLoad();
+    private final LocalDataSave localDataSave = new LocalDataSave();
+    private final GsonDataConverter gson = new GsonDataConverter();
+    private final IdGenerator generator = new IdGenerator();
 
     public Long save(Saying saying) {
         Long saveId = generator.createId();
@@ -43,6 +49,23 @@ public class SayingService {
 
     public void load(Saying saying) {
         repository.save(saying);
+    }
+
+    public void build() {
+        String jsonStr = gson.sayingToJson(repository.findAll());
+        localDataSave.saveJson(jsonStr);
+    }
+
+    public void txtSave() {
+        localDataSave.saveTxt();
+    }
+
+    public void txtLoad() {
+        List<Saying> loadDatas = localDataLoad.load();
+        for (Saying saying : loadDatas) {
+            repository.save(saying);
+        }
+        generator.updateId(loadDatas.get(loadDatas.size() - 1).getId() + 1);
     }
 
     private Long convertId(String request) {

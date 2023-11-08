@@ -3,21 +3,15 @@ package com.likelion.wisesaying;
 import com.likelion.wisesaying.domain.Saying;
 import com.likelion.wisesaying.service.SayingService;
 import com.likelion.wisesaying.util.exception.CustomRequestException;
-import com.likelion.wisesaying.util.file.LocalDataLoad;
-import com.likelion.wisesaying.util.file.LocalDataSave;
-import com.likelion.wisesaying.util.gson.GsonDataConverter;
 import java.util.Scanner;
 
 public class Application {
     private final Scanner sc = new Scanner(System.in);
     private final SayingService service = new SayingService();
-    private final LocalDataSave localDataSave = new LocalDataSave();
-    private final LocalDataLoad localDataLoad = new LocalDataLoad();
-    private final GsonDataConverter gson = new GsonDataConverter();
 
 
     public void run() {
-        localDataLoad.load();
+        service.txtLoad();
         String request = "";
         System.out.println("== 명언 앱 ==");
 
@@ -69,6 +63,7 @@ public class Application {
             // update
             if (request.startsWith("수정")) {
                 Saying saying;
+
                 try {
                     saying = service.update(request);
                 } catch (IllegalArgumentException e) {
@@ -77,23 +72,30 @@ public class Application {
                 } catch (CustomRequestException e) {
                     continue;
                 }
+
                 System.out.println("명언(기존) : " + saying.getContent());
                 System.out.print("명언 : ");
                 String updateContent = sc.nextLine();
+                saying.setContent(updateContent);
+
                 System.out.println("작가(기존) : " + saying.getAuthor());
                 System.out.print("작가 : ");
                 String updateAuthor = sc.nextLine();
                 saying.setAuthor(updateAuthor);
-                saying.setContent(updateContent);
+
             }
 
             // build
             if (request.equals("빌드")) {
-                String jsonStr = gson.sayingToJson(service.findAll());
-                localDataSave.saveJson(jsonStr);
+                service.build();
             }
+
+            if (request.equals("test")) {
+                dummyDataInit();
+            }
+
         }
-        localDataSave.saveTxt();
+        service.txtSave();
     }
 
     public void dummyDataInit() {
