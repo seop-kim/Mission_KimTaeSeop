@@ -1,5 +1,6 @@
 package com.likelion.wisesaying.service;
 
+import com.likelion.wisesaying.database.SayingDAO;
 import com.likelion.wisesaying.domain.Saying;
 import com.likelion.wisesaying.language.KoreaContent;
 import com.likelion.wisesaying.repository.SayingRepository;
@@ -18,46 +19,47 @@ public class SayingService {
     private final GsonDataConverter gson = new GsonDataConverter();
     private final IdGenerator generator = new IdGenerator();
     private final TypeConverter typeConverter = new TypeConverter();
+    SayingDAO dao = new SayingDAO();
 
     public SayingService() {
-        txtLoad();
+        // txtLoad(); DB 저장으로 인한 주석
     }
 
     public Long save(Saying saying) {
         Long saveId = generator.createId();
         saying.setId(saveId);
-        repository.save(saying);
+        dao.register(saying);
 
         return saveId;
     }
 
     public List<Saying> findAllReverse() {
-        List<Saying> sayings = repository.findAll();
+        List<Saying> sayings = dao.findAll();
         Collections.reverse(sayings);
         return sayings;
     }
 
     public List<Saying> findAll() {
-        return repository.findAll();
+        return dao.findAll();
     }
 
     public Saying findOne(Long id) {
-        return repository.findOne(id);
+        return dao.findOne(id);
     }
 
     public Long delete(String id) {
         Long convertId = convertId(id);
-        repository.delete(convertId);
+        dao.delete(convertId);
         return convertId;
     }
 
     public Saying update(String id) {
         Long convertId = convertId(id);
-        return repository.findOne(convertId);
+        return dao.findOne(convertId);
     }
 
     public void build() {
-        String jsonStr = gson.sayingToJson(repository.findAll());
+        String jsonStr = gson.sayingToJson(dao.findAll());
         localDataSave.saveJson(jsonStr);
     }
 
@@ -68,14 +70,14 @@ public class SayingService {
     public void txtLoad() {
         List<Saying> loadSayings = localDataLoad.load();
         for (Saying saying : loadSayings) {
-            repository.save(saying);
+            dao.register(saying);
         }
 
         generator.updateId(loadSayings.get(0).getId());
     }
 
     private Long convertId(String request) {
-        Saying saying = repository.findOne(typeConverter.strToLong(request));
+        Saying saying = dao.findOne(typeConverter.strToLong(request));
         if (saying == null) {
             throw new IllegalArgumentException(request + KoreaContent.NONE_FIND_DATA);
         }
