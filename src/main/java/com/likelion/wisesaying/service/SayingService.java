@@ -53,9 +53,13 @@ public class SayingService {
         return convertId;
     }
 
-    public Saying update(String id) {
+    public Saying updateConfirm(String id) {
         Long convertId = convertId(id);
         return dao.findOne(convertId);
+    }
+
+    public void update(Saying saying) {
+        dao.update(saying);
     }
 
     public void build() {
