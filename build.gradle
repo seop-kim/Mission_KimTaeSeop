@@ -24,6 +24,9 @@ dependencies {
 
     // gson
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    // jdbc
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.27'
 }
 
 
