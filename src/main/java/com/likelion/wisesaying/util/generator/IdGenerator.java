@@ -5,4 +5,8 @@ public class IdGenerator {
     public Long createId() {
         return ++id;
     }
+
+    public void updateId(Long id) {
+        this.id = id;
+    }
 }
