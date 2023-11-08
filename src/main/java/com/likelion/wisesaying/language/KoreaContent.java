@@ -24,4 +24,6 @@ public class KoreaContent {
     public static final String UPDATE_REQUEST_AUTHOR = "작가(기존) : ";
 
     public static final String NONE_FIND_DATA = "번 명언은 존재하지 않습니다.";
+
+    public static final String NONE_REPO_ADAPTER = "존재하지 않는 저장방식 입니다.";
 }

@@ -1,17 +1,17 @@
-package com.likelion.wisesaying.repository;
+package com.likelion.wisesaying.repository.obj;
 
 import com.likelion.wisesaying.domain.Saying;
+import com.likelion.wisesaying.repository.IAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 
-public class SayingRepository {
-    @Getter
-    private static final SayingRepository instance = new SayingRepository();
+public class SayingRepository implements IAdapter {
     private final Map<Long, Saying> sayings = new HashMap<>();
-    private SayingRepository() {
+
+    public SayingRepository() {
     }
 
     public void save(Saying saying) {
@@ -25,6 +25,7 @@ public class SayingRepository {
     public Saying findOne(Long id) {
         return sayings.get(id);
     }
+
     public void delete(Long id) {
         sayings.remove(id);
     }
