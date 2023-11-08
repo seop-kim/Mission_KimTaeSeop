@@ -1,11 +1,11 @@
-package com.likelion.wisesaying;
+package com.likelion.wisesaying.controller;
 
 import com.likelion.wisesaying.domain.Saying;
 import com.likelion.wisesaying.service.SayingService;
 import com.likelion.wisesaying.util.exception.CustomRequestException;
 import java.util.Scanner;
 
-public class Application {
+public class MainController {
     private final Scanner sc = new Scanner(System.in);
     private final SayingService service = new SayingService();
 
