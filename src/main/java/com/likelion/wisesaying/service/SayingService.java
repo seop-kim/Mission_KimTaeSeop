@@ -5,6 +5,7 @@ import com.likelion.wisesaying.language.KoreaContent;
 import com.likelion.wisesaying.repository.AdapterCollection;
 import com.likelion.wisesaying.repository.IRepoAdapter;
 import com.likelion.wisesaying.repository.jdbc.SayingDAO;
+import com.likelion.wisesaying.repository.obj.SayingRepository;
 import com.likelion.wisesaying.util.convertor.TypeConverter;
 import com.likelion.wisesaying.util.file.LocalDataLoad;
 import com.likelion.wisesaying.util.file.LocalDataSave;
@@ -14,76 +15,87 @@ import java.util.Collections;
 import java.util.List;
 
 public class SayingService {
-    private final LocalDataLoad localDataLoad = new LocalDataLoad();
-    private final LocalDataSave localDataSave = new LocalDataSave();
-    private final GsonDataConverter gson = new GsonDataConverter();
-    private final IdGenerator generator = new IdGenerator();
-    private final TypeConverter typeConverter = new TypeConverter();
-    private final IRepoAdapter dbType = AdapterCollection.getFunction("JDBC");
+    private static final LocalDataLoad LOCAL_DATA_LOAD = new LocalDataLoad();
+    private static final LocalDataSave LOCAL_DATA_SAVE = new LocalDataSave();
+    private static final GsonDataConverter GSON_DATA_CONVERTER = new GsonDataConverter();
+    private static  final IdGenerator GENERATOR = new IdGenerator();
+    private static final TypeConverter TYPE_CONVERTER = new TypeConverter();
+    private static final IRepoAdapter DB_TYPE = AdapterCollection.getFunction("JDBC");
 
     public SayingService() {
-        if(dbType instanceof SayingDAO){
-            generator.updateId(dbType.maxId());
+        // jdbc 저장 방식의 경우 db에서 마지막 게시글의 id 조회 후 업데이트
+        if(DB_TYPE instanceof SayingDAO){
+            GENERATOR.updateId(DB_TYPE.maxId());
+        }
+
+
+        // obj 저장 방식의 경우 txt파일 로드
+        if (DB_TYPE instanceof SayingRepository) {
+            txtLoad();
         }
     }
 
+    public static IRepoAdapter getDBType() {
+        return DB_TYPE;
+    }
+
     public Long save(Saying saying) {
-        Long saveId = generator.createId();
+        Long saveId = GENERATOR.createId();
         saying.setId(saveId);
-        dbType.save(saying);
+        DB_TYPE.save(saying);
 
         return saveId;
     }
 
     public List<Saying> findAllReverse() {
-        List<Saying> sayings = dbType.findAll();
+        List<Saying> sayings = DB_TYPE.findAll();
         Collections.reverse(sayings);
         return sayings;
     }
 
     public List<Saying> findAll() {
-        return dbType.findAll();
+        return DB_TYPE.findAll();
     }
 
     public Saying findOne(Long id) {
-        return dbType.findOne(id);
+        return DB_TYPE.findOne(id);
     }
 
     public Long delete(String id) {
         Long convertId = convertId(id);
-        dbType.delete(convertId);
+        DB_TYPE.delete(convertId);
         return convertId;
     }
 
     public Saying updateConfirm(String id) {
         Long convertId = convertId(id);
-        return dbType.findOne(convertId);
+        return DB_TYPE.findOne(convertId);
     }
 
     public void update(Saying saying) {
-        dbType.update(saying);
+        DB_TYPE.update(saying);
     }
 
     public void build() {
-        String jsonStr = gson.sayingToJson(dbType.findAll());
-        localDataSave.saveJson(jsonStr);
+        String jsonStr = GSON_DATA_CONVERTER.sayingToJson(DB_TYPE.findAll());
+        LOCAL_DATA_SAVE.saveJson(jsonStr);
     }
 
     public void txtSave() {
-        localDataSave.saveTxt();
+        LOCAL_DATA_SAVE.saveTxt();
     }
 
     public void txtLoad() {
-        List<Saying> loadSayings = localDataLoad.load();
+        List<Saying> loadSayings = LOCAL_DATA_LOAD.load();
         for (Saying saying : loadSayings) {
-            dbType.save(saying);
+            DB_TYPE.save(saying);
         }
 
-        generator.updateId(loadSayings.get(0).getId());
+        GENERATOR.updateId(loadSayings.get(0).getId());
     }
 
     private Long convertId(String request) {
-        Saying saying = dbType.findOne(typeConverter.strToLong(request));
+        Saying saying = DB_TYPE.findOne(TYPE_CONVERTER.strToLong(request));
         if (saying == null) {
             throw new IllegalArgumentException(request + KoreaContent.NONE_FIND_DATA);
         }
