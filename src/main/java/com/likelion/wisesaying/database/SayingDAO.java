@@ -62,24 +62,29 @@ public class SayingDAO {
     public Saying findOne(Long id) {
         conn = open();
         String sql = "SELECT * FROM saying WHERE id =?";
-        Saying saying = new Saying();
+        Saying saying = null;
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
+                saying = new Saying();
                 saying.setId(rs.getLong("id"));
                 saying.setAuthor(rs.getString("author"));
                 saying.setContent(rs.getString("content"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+
         } finally {
             close();
         }
         return saying;
     }
+
 
     public void delete(Long id) {
         conn = open();

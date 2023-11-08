@@ -14,7 +14,7 @@ public class Update implements IMainControllable {
         Saying saying;
 
         try {
-            saying = service.update(model.get("id"));
+            saying = service.updateConfirm(model.get("id"));
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return;
@@ -31,5 +31,7 @@ public class Update implements IMainControllable {
         System.out.print(KoreaContent.REQUEST_AUTHOR);
         String updateAuthor = Request.input();
         saying.setAuthor(updateAuthor);
+
+        service.update(saying);
     }
 }
