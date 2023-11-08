@@ -1,8 +1,9 @@
 package com.likelion.wisesaying.service;
 
 import com.likelion.wisesaying.domain.Saying;
+import com.likelion.wisesaying.language.KoreaContent;
 import com.likelion.wisesaying.repository.SayingRepository;
-import com.likelion.wisesaying.util.convertor.RequestConverter;
+import com.likelion.wisesaying.util.convertor.TypeConverter;
 import com.likelion.wisesaying.util.file.LocalDataLoad;
 import com.likelion.wisesaying.util.file.LocalDataSave;
 import com.likelion.wisesaying.util.generator.IdGenerator;
@@ -12,17 +13,21 @@ import java.util.List;
 
 public class SayingService {
     private final SayingRepository repository = SayingRepository.getInstance();
-    private final RequestConverter converter = new RequestConverter();
     private final LocalDataLoad localDataLoad = new LocalDataLoad();
     private final LocalDataSave localDataSave = new LocalDataSave();
     private final GsonDataConverter gson = new GsonDataConverter();
     private final IdGenerator generator = new IdGenerator();
+    private final TypeConverter typeConverter = new TypeConverter();
+
+    public SayingService() {
+        txtLoad();
+    }
 
     public Long save(Saying saying) {
         Long saveId = generator.createId();
         saying.setId(saveId);
         repository.save(saying);
-        
+
         return saveId;
     }
 
@@ -36,19 +41,19 @@ public class SayingService {
         return repository.findAll();
     }
 
-    public Long delete(String request) {
-        Long findId = convertId(request);
-        repository.delete(findId);
-        return findId;
+    public Saying findOne(Long id) {
+        return repository.findOne(id);
     }
 
-    public Saying update(String request) {
-        Long findId = convertId(request);
-        return repository.findOne(findId);
+    public Long delete(String id) {
+        Long convertId = convertId(id);
+        repository.delete(convertId);
+        return convertId;
     }
 
-    public void load(Saying saying) {
-        repository.save(saying);
+    public Saying update(String id) {
+        Long convertId = convertId(id);
+        return repository.findOne(convertId);
     }
 
     public void build() {
@@ -61,18 +66,19 @@ public class SayingService {
     }
 
     public void txtLoad() {
-        List<Saying> loadDatas = localDataLoad.load();
-        for (Saying saying : loadDatas) {
+        List<Saying> loadSayings = localDataLoad.load();
+        for (Saying saying : loadSayings) {
             repository.save(saying);
         }
-        generator.updateId(loadDatas.get(loadDatas.size() - 1).getId() + 1);
+
+        generator.updateId(loadSayings.get(0).getId());
     }
 
     private Long convertId(String request) {
-        Long findId = converter.splitId(request);
-        if (repository.findOne(findId) == null) {
-            throw new IllegalArgumentException(findId + "번 명언은 존재하지 않습니다.");
+        Saying saying = repository.findOne(typeConverter.strToLong(request));
+        if (saying == null) {
+            throw new IllegalArgumentException(request + KoreaContent.NONE_FIND_DATA);
         }
-        return findId;
+        return saying.getId();
     }
 }

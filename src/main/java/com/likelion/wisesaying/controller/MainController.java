@@ -1,109 +1,32 @@
 package com.likelion.wisesaying.controller;
 
-import com.likelion.wisesaying.domain.Saying;
-import com.likelion.wisesaying.service.SayingService;
-import com.likelion.wisesaying.util.exception.CustomRequestException;
-import java.util.Scanner;
+import com.likelion.wisesaying.language.KoreaContent;
+import com.likelion.wisesaying.util.request.Request;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainController {
-    private final Scanner sc = new Scanner(System.in);
-    private final SayingService service = new SayingService();
-
+    private final Map<String, String> model = new HashMap<>();
 
     public void run() {
-        service.txtLoad();
-        String request = "";
-        System.out.println("== 명언 앱 ==");
+        String path = "";
+        System.out.println(KoreaContent.START_MENU);
 
-        while (!request.equals("종료")) {
-            System.out.print("명령) ");
-            request = sc.nextLine();
-
-            // add
-            if (request.equals("등록")) {
-                System.out.print("명언 : ");
-                String requestContent = sc.nextLine();
-
-                System.out.print("작가 : ");
-                String requestAuthor = sc.nextLine();
-
-                Saying saying = new Saying();
-                saying.setContent(requestContent);
-                saying.setAuthor(requestAuthor);
-
-                Long saveId = service.save(saying);
-
-                System.out.println(saveId + "번 명언이 등록되었습니다.");
-            }
-
-            // list
-            if (request.equals("목록")) {
-                System.out.println("번호\t/\t작가\t/\t명언\n----------------------");
-                for (Saying saying : service.findAllReverse()) {
-                    System.out.println(saying.getId() + "\t/\t" + saying.getAuthor() + "\t/\t" + saying.getContent());
-                }
-            }
-
-            // delete
-            if (request.startsWith("삭제")) {
-                Long deleteId;
-
-                try {
-                    deleteId = service.delete(request);
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                    continue;
-                } catch (CustomRequestException e) {
-                    continue;
-                }
-
-                System.out.println(deleteId + "번 명언이 삭제되었습니다.");
-            }
-
-            // update
-            if (request.startsWith("수정")) {
-                Saying saying;
-
-                try {
-                    saying = service.update(request);
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                    continue;
-                } catch (CustomRequestException e) {
-                    continue;
-                }
-
-                System.out.println("명언(기존) : " + saying.getContent());
-                System.out.print("명언 : ");
-                String updateContent = sc.nextLine();
-                saying.setContent(updateContent);
-
-                System.out.println("작가(기존) : " + saying.getAuthor());
-                System.out.print("작가 : ");
-                String updateAuthor = sc.nextLine();
-                saying.setAuthor(updateAuthor);
-
-            }
-
-            // build
-            if (request.equals("빌드")) {
-                service.build();
-            }
-
-            if (request.equals("test")) {
-                dummyDataInit();
-            }
-
+        // start
+        while (!path.equals(KoreaContent.END)) {
+            path = getRequest();
+            MainCollection.getFunction(model.get("path")).process(model);
         }
-        service.txtSave();
     }
 
-    public void dummyDataInit() {
-        for (int i = 0; i < 5; i++) {
-            Saying saying = new Saying();
-            saying.setContent("test content " + (i + 1));
-            saying.setAuthor("test author " + (i + 1));
-            service.save(saying);
-        }
+    //
+    // 문자열과 문자열 상수와는 메모리 영역에서 처리되는게 다르다. (찾아봐야함)
+
+    private String getRequest() {
+        System.out.print(KoreaContent.REQUEST_MENU);
+        String request = Request.input();
+        model.put("request", request);
+        Request.setModel(model);
+        return request;
     }
 }
