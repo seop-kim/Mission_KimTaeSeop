@@ -1,6 +1,7 @@
-package com.likelion.wisesaying.database;
+package com.likelion.wisesaying.repository.jdbc;
 
 import com.likelion.wisesaying.domain.Saying;
+import com.likelion.wisesaying.repository.IAdapter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SayingDAO {
+public class SayingDAO implements IAdapter {
     private static final String URL = "jdbc:mysql://localhost:3306/saying";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "lldj123414";
@@ -17,7 +18,7 @@ public class SayingDAO {
 
     private Connection conn;
 
-    public void register(Saying saying) {
+    public void save(Saying saying) {
         conn = open();
         String sql = "INSERT INTO saying(id, author, content) VALUES (?,?,?)";
         try {
@@ -118,7 +119,7 @@ public class SayingDAO {
     }
 
 
-    private Connection open() {
+    public Connection open() {
         Connection con = null;
         try {
             // MySQL JDBC 드라이버를 로드합니다.
@@ -141,7 +142,7 @@ public class SayingDAO {
         return con;
     }
 
-    private void close() {
+    public void close() {
         if (conn != null) {
             try {
                 conn.close();
