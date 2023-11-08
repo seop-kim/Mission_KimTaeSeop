@@ -4,7 +4,7 @@ import com.likelion.wisesaying.domain.Saying;
 import java.sql.Connection;
 import java.util.List;
 
-public interface IAdapter {
+public interface IRepoAdapter {
     void save(Saying saying);
 
     List<Saying> findAll();
@@ -14,6 +14,10 @@ public interface IAdapter {
     void delete(Long id);
 
     default void update(Saying saying) {}
+
+    default Long maxId() {
+        return 0L;
+    }
 
     default Connection open() {
         return null;
