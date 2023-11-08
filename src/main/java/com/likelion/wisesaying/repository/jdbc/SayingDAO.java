@@ -1,7 +1,7 @@
 package com.likelion.wisesaying.repository.jdbc;
 
 import com.likelion.wisesaying.domain.Saying;
-import com.likelion.wisesaying.repository.IAdapter;
+import com.likelion.wisesaying.repository.IRepoAdapter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SayingDAO implements IAdapter {
+public class SayingDAO implements IRepoAdapter {
     private static final String URL = "jdbc:mysql://localhost:3306/saying";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "lldj123414";
@@ -118,6 +118,24 @@ public class SayingDAO implements IAdapter {
         }
     }
 
+    public Long maxId() {
+        conn = open();
+        String sql = "SELECT MAX(id) FROM saying";
+        Long maxId = 0L;
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                maxId = rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        return maxId;
+    }
 
     public Connection open() {
         Connection con = null;

@@ -8,14 +8,14 @@ public enum AdapterCollection {
     JDBC("JDBC",new SayingDAO()),
     OBJ("OBJ", new SayingRepository());
     private final String type;
-    private final IAdapter function;
+    private final IRepoAdapter function;
 
-    AdapterCollection(String type, IAdapter function) {
+    AdapterCollection(String type, IRepoAdapter function) {
         this.type = type;
         this.function = function;
     }
 
-    public static IAdapter getFunction(String type) {
+    public static IRepoAdapter getFunction(String type) {
         for (AdapterCollection collection : values()) {
             if (collection.type.equals(type)) {
                 return collection.function;

@@ -1,11 +1,10 @@
 package com.likelion.wisesaying.service;
 
-import com.likelion.wisesaying.repository.AdapterCollection;
-import com.likelion.wisesaying.repository.IAdapter;
-import com.likelion.wisesaying.repository.jdbc.SayingDAO;
 import com.likelion.wisesaying.domain.Saying;
 import com.likelion.wisesaying.language.KoreaContent;
-import com.likelion.wisesaying.repository.obj.SayingRepository;
+import com.likelion.wisesaying.repository.AdapterCollection;
+import com.likelion.wisesaying.repository.IRepoAdapter;
+import com.likelion.wisesaying.repository.jdbc.SayingDAO;
 import com.likelion.wisesaying.util.convertor.TypeConverter;
 import com.likelion.wisesaying.util.file.LocalDataLoad;
 import com.likelion.wisesaying.util.file.LocalDataSave;
@@ -20,10 +19,12 @@ public class SayingService {
     private final GsonDataConverter gson = new GsonDataConverter();
     private final IdGenerator generator = new IdGenerator();
     private final TypeConverter typeConverter = new TypeConverter();
-    private final IAdapter dbType = AdapterCollection.getFunction("JDBC");
+    private final IRepoAdapter dbType = AdapterCollection.getFunction("JDBC");
 
     public SayingService() {
-        // txtLoad(); DB 저장으로 인한 주석
+        if(dbType instanceof SayingDAO){
+            generator.updateId(dbType.maxId());
+        }
     }
 
     public Long save(Saying saying) {

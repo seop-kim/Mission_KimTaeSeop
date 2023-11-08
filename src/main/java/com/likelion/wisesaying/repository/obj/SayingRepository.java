@@ -1,14 +1,13 @@
 package com.likelion.wisesaying.repository.obj;
 
 import com.likelion.wisesaying.domain.Saying;
-import com.likelion.wisesaying.repository.IAdapter;
+import com.likelion.wisesaying.repository.IRepoAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
 
-public class SayingRepository implements IAdapter {
+public class SayingRepository implements IRepoAdapter {
     private final Map<Long, Saying> sayings = new HashMap<>();
 
     public SayingRepository() {
