@@ -1,6 +1,6 @@
 package com.likelion.wisesaying.repository;
 
-import com.likelion.wisesaying.language.KoreaContent;
+import com.likelion.wisesaying.language.KoreaConstContent;
 import com.likelion.wisesaying.repository.jdbc.SayingDAO;
 import com.likelion.wisesaying.repository.obj.SayingRepository;
 
@@ -21,6 +21,6 @@ public enum AdapterCollection {
                 return collection.function;
             }
         }
-        throw new IllegalArgumentException(KoreaContent.NONE_REPO_ADAPTER);
+        throw new IllegalArgumentException(KoreaConstContent.NONE_REPO_ADAPTER);
     }
 }

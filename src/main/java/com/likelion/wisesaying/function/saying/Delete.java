@@ -1,7 +1,7 @@
 package com.likelion.wisesaying.function.saying;
 
 import com.likelion.wisesaying.function.IMainControllable;
-import com.likelion.wisesaying.language.KoreaContent;
+import com.likelion.wisesaying.language.KoreaConstContent;
 import java.util.Map;
 
 public class Delete implements IMainControllable {
@@ -18,6 +18,6 @@ public class Delete implements IMainControllable {
             return;
         }
 
-        System.out.println(deleteId + KoreaContent.DELETE_MSG);
+        System.out.println(deleteId + KoreaConstContent.DELETE_MSG);
     }
 }

@@ -1,7 +1,7 @@
 package com.likelion.wisesaying.repository.jdbc;
 
 import com.likelion.wisesaying.domain.Saying;
-import com.likelion.wisesaying.language.KoreaContent;
+import com.likelion.wisesaying.language.KoreaConstContent;
 import com.likelion.wisesaying.repository.IRepoAdapter;
 import com.likelion.wisesaying.util.config.AppConfig;
 import java.sql.Connection;
@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SayingDAO implements IRepoAdapter {
-    private static final String URL = AppConfig.getProperty("url");
-    private static final String USERNAME = AppConfig.getProperty("username");
-    private static final String PASSWORD = AppConfig.getProperty("password");
-    private static final String CLASS_NAME = AppConfig.getProperty("driver");
+    private static final String URL = AppConfig.getJdbcProperty("url");
+    private static final String USERNAME = AppConfig.getJdbcProperty("username");
+    private static final String PASSWORD = AppConfig.getJdbcProperty("password");
+    private static final String CLASS_NAME = AppConfig.getJdbcProperty("driver");
 
     private Connection conn;
 
@@ -149,14 +149,14 @@ public class SayingDAO implements IRepoAdapter {
             con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
             if (con == null) {
-                System.out.println(KoreaContent.SQL_CON_FAIL);
+                System.out.println(KoreaConstContent.SQL_CON_FAIL);
                 return null;
             }
         } catch (ClassNotFoundException e) {
-            System.err.println(KoreaContent.NO_SUCH_JDBC_DRIVER);
+            System.err.println(KoreaConstContent.NO_SUCH_JDBC_DRIVER);
 
         } catch (SQLException e) {
-            System.err.println(KoreaContent.MYSQL_CONNECTING_ERROR);
+            System.err.println(KoreaConstContent.MYSQL_CONNECTING_ERROR);
         }
 
         return con;

@@ -1,6 +1,6 @@
 package com.likelion.wisesaying.language;
 
-public class KoreaContent {
+public class KoreaConstContent {
     public static final String START_MENU = "== 명언 앱 ==";
 
     public static final String REQUEST_MENU = "명령) ";

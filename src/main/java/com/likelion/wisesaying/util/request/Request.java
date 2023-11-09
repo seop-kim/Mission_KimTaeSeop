@@ -1,6 +1,7 @@
 package com.likelion.wisesaying.util.request;
 
-import com.likelion.wisesaying.language.KoreaContent;
+import com.likelion.wisesaying.language.KoreaConstContent;
+import com.likelion.wisesaying.util.config.AppConfig;
 import com.likelion.wisesaying.util.convertor.RequestConverter;
 import java.util.Map;
 import java.util.Scanner;
@@ -11,7 +12,7 @@ public class Request {
     }
 
     public static String input(Map<String, String> model) {
-        System.out.print(KoreaContent.REQUEST_MENU);
+        System.out.print(KoreaConstContent.REQUEST_MENU);
         String request = Request.input();
         model.put("request", request);
         Request.setModel(model);
