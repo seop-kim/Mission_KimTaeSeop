@@ -3,7 +3,6 @@ package com.likelion.wisesaying.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.likelion.wisesaying.domain.Saying;
-import com.likelion.wisesaying.util.exception.CustomRequestException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
