@@ -23,12 +23,9 @@ public class LocalDataLoad {
                 if (len.length == 3) {
                     Long loadPostNum = Long.parseLong(len[0]);
                     String loadAuthor = len[1];
-                    String loadSentence = len[2];
+                    String loadContent = len[2];
 
-                    Saying saying = new Saying();
-                    saying.setId(loadPostNum);
-                    saying.setAuthor(loadAuthor);
-                    saying.setContent(loadSentence);
+                    Saying saying = new Saying(loadPostNum, loadContent, loadAuthor);
 
                     sayings.add(saying);
                 }
