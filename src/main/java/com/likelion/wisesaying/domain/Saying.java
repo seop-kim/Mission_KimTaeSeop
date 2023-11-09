@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class Saying {
     private Long id;
     private String content;
@@ -28,6 +27,11 @@ public class Saying {
         this.content = content;
         this.author = author;
     }
+
+    public void addId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return id + "\t/\t" + author + "\t/\t" + content;

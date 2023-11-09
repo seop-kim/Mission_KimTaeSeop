@@ -47,10 +47,7 @@ public class SayingDAO implements IRepoAdapter {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                Saying saying = new Saying();
-                saying.setId(rs.getLong("id"));
-                saying.setAuthor(rs.getString("author"));
-                saying.setContent(rs.getString("content"));
+                Saying saying = new Saying(rs.getLong("id"), rs.getString("content"), rs.getString("author"));
                 sayings.add(saying);
             }
         } catch (SQLException e) {
@@ -72,10 +69,7 @@ public class SayingDAO implements IRepoAdapter {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                saying = new Saying();
-                saying.setId(rs.getLong("id"));
-                saying.setAuthor(rs.getString("author"));
-                saying.setContent(rs.getString("content"));
+                saying = new Saying(rs.getLong("id"), rs.getString("content"), rs.getString("author"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

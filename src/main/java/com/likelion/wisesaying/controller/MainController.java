@@ -16,13 +16,7 @@ public class MainController {
         // start
         while (!path.equals(KoreaConstContent.END)) {
             path = Request.input(model);
-            try {
-                MainCollection.getFunction(model.get("path")).process(model);
-
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage()); // 존재하지 않는 기능
-
-            }
+            MainCollection.getFunction(model.get("path")).process(model);
         }
     }
 }
