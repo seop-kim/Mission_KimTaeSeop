@@ -1,7 +1,7 @@
 package com.likelion.wisesaying.service;
 
 import com.likelion.wisesaying.domain.Saying;
-import com.likelion.wisesaying.language.KoreaContent;
+import com.likelion.wisesaying.language.KoreaConstContent;
 import com.likelion.wisesaying.repository.AdapterCollection;
 import com.likelion.wisesaying.repository.IRepoAdapter;
 import com.likelion.wisesaying.repository.jdbc.SayingDAO;
@@ -97,7 +97,7 @@ public class SayingService {
     private Long convertId(String request) {
         Saying saying = DB_TYPE.findOne(TYPE_CONVERTER.strToLong(request));
         if (saying == null) {
-            throw new IllegalArgumentException(request + KoreaContent.NONE_FIND_DATA);
+            throw new IllegalArgumentException(request + KoreaConstContent.NONE_FIND_DATA);
         }
         return saying.getId();
     }

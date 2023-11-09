@@ -7,15 +7,15 @@ import com.likelion.wisesaying.function.saying.Find;
 import com.likelion.wisesaying.function.IMainControllable;
 import com.likelion.wisesaying.function.saying.Register;
 import com.likelion.wisesaying.function.saying.Update;
-import com.likelion.wisesaying.language.KoreaContent;
+import com.likelion.wisesaying.language.KoreaConstContent;
 
 public enum MainCollection {
-    RESISTER(KoreaContent.REGISTER, new Register()),
-    UPDATE(KoreaContent.UPDATE, new Update()),
-    LIST(KoreaContent.LIST, new Find()),
-    DELETE(KoreaContent.DELETE, new Delete()),
-    BUILD(KoreaContent.BUILD, new Build()),
-    END(KoreaContent.END, new End());
+    RESISTER(KoreaConstContent.REGISTER, new Register()),
+    UPDATE(KoreaConstContent.UPDATE, new Update()),
+    LIST(KoreaConstContent.LIST, new Find()),
+    DELETE(KoreaConstContent.DELETE, new Delete()),
+    BUILD(KoreaConstContent.BUILD, new Build()),
+    END(KoreaConstContent.END, new End());
 
 
     private final String path;
@@ -32,6 +32,6 @@ public enum MainCollection {
                 return controller.function;
             }
         }
-        throw new IllegalArgumentException(KoreaContent.NONE_COMMEND);
+        throw new IllegalArgumentException(KoreaConstContent.NONE_COMMEND);
     }
 }

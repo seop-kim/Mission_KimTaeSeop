@@ -7,7 +7,7 @@ import java.util.Properties;
 public class AppConfig {
     private static final Properties pro = new Properties();
 
-    public static String getProperty(String key) {
+    public static String getJdbcProperty(String key) {
         InputStream in = AppConfig.class.getClassLoader().getResourceAsStream("config/jdbc.properties");
         try {
             pro.load(in);
