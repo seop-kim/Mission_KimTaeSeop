@@ -1,8 +1,7 @@
-package com.likelion.wisesaying.function;
+package com.likelion.wisesaying.function.saying;
 
-import com.likelion.wisesaying.controller.IMainControllable;
+import com.likelion.wisesaying.function.IMainControllable;
 import com.likelion.wisesaying.language.KoreaContent;
-import com.likelion.wisesaying.util.exception.CustomRequestException;
 import java.util.Map;
 
 public class Delete implements IMainControllable {
@@ -14,12 +13,8 @@ public class Delete implements IMainControllable {
 
         try {
             deleteId = service.delete(model.get("id"));
-
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            return;
-
-        } catch (CustomRequestException e) {
             return;
         }
 

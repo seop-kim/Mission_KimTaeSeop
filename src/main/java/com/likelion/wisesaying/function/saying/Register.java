@@ -1,7 +1,7 @@
-package com.likelion.wisesaying.function;
+package com.likelion.wisesaying.function.saying;
 
-import com.likelion.wisesaying.controller.IMainControllable;
 import com.likelion.wisesaying.domain.Saying;
+import com.likelion.wisesaying.function.IMainControllable;
 import com.likelion.wisesaying.language.KoreaContent;
 import com.likelion.wisesaying.util.request.Request;
 import java.util.Map;
@@ -15,9 +15,7 @@ public class Register implements IMainControllable {
         System.out.print(KoreaContent.REQUEST_AUTHOR);
         String requestAuthor = Request.input();
 
-        Saying saying = new Saying();
-        saying.setContent(requestContent);
-        saying.setAuthor(requestAuthor);
+        Saying saying = new Saying(requestContent,requestAuthor);
 
         Long saveId = service.save(saying);
 

@@ -1,7 +1,7 @@
-package com.likelion.wisesaying.function;
+package com.likelion.wisesaying.function.saying;
 
-import com.likelion.wisesaying.controller.IMainControllable;
 import com.likelion.wisesaying.domain.Saying;
+import com.likelion.wisesaying.function.IMainControllable;
 import com.likelion.wisesaying.language.KoreaContent;
 import java.util.Map;
 

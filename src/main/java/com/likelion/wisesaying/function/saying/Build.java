@@ -1,6 +1,6 @@
-package com.likelion.wisesaying.function;
+package com.likelion.wisesaying.function.saying;
 
-import com.likelion.wisesaying.controller.IMainControllable;
+import com.likelion.wisesaying.function.IMainControllable;
 import java.util.Map;
 
 public class Build implements IMainControllable {

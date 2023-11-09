@@ -14,19 +14,14 @@ public class MainController {
 
         // start
         while (!path.equals(KoreaContent.END)) {
-            path = getRequest();
-            MainCollection.getFunction(model.get("path")).process(model);
+            path = Request.input(model);
+            try {
+                MainCollection.getFunction(model.get("path")).process(model);
+
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage()); // 존재하지 않는 기능
+
+            }
         }
-    }
-
-    //
-    // 문자열과 문자열 상수와는 메모리 영역에서 처리되는게 다르다. (찾아봐야함)
-
-    private String getRequest() {
-        System.out.print(KoreaContent.REQUEST_MENU);
-        String request = Request.input();
-        model.put("request", request);
-        Request.setModel(model);
-        return request;
     }
 }
