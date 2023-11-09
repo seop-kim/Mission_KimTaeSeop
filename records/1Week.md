@@ -98,6 +98,8 @@
 - [X] Text 상수화
 - [ ] JPA를 사용하여 DB 처리
 - [ ] Controller 분기 1개로 수정
+- [X] DB 연동 정보 properties로 분리
+- [X] Obj저장소 싱글톤패턴 적용
 
 
 
