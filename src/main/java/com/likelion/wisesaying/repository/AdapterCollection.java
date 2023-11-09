@@ -6,7 +6,7 @@ import com.likelion.wisesaying.repository.obj.SayingRepository;
 
 public enum AdapterCollection {
     JDBC("JDBC",new SayingDAO()),
-    OBJ("OBJ", new SayingRepository());
+    OBJ("OBJ", SayingRepository.getInstance());
     private final String type;
     private final IRepoAdapter function;
 
