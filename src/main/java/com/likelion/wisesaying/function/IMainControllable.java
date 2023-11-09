@@ -1,4 +1,4 @@
-package com.likelion.wisesaying.controller;
+package com.likelion.wisesaying.function;
 
 import com.likelion.wisesaying.service.SayingService;
 import java.util.Map;

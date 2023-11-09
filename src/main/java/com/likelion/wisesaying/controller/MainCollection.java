@@ -1,11 +1,12 @@
 package com.likelion.wisesaying.controller;
 
-import com.likelion.wisesaying.function.Build;
-import com.likelion.wisesaying.function.Delete;
-import com.likelion.wisesaying.function.End;
-import com.likelion.wisesaying.function.Find;
-import com.likelion.wisesaying.function.Register;
-import com.likelion.wisesaying.function.Update;
+import com.likelion.wisesaying.function.saying.Build;
+import com.likelion.wisesaying.function.saying.Delete;
+import com.likelion.wisesaying.function.saying.End;
+import com.likelion.wisesaying.function.saying.Find;
+import com.likelion.wisesaying.function.IMainControllable;
+import com.likelion.wisesaying.function.saying.Register;
+import com.likelion.wisesaying.function.saying.Update;
 import com.likelion.wisesaying.language.KoreaContent;
 
 public enum MainCollection {
