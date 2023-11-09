@@ -5,6 +5,7 @@ import com.likelion.wisesaying.function.saying.Delete;
 import com.likelion.wisesaying.function.saying.End;
 import com.likelion.wisesaying.function.saying.Find;
 import com.likelion.wisesaying.function.IMainControllable;
+import com.likelion.wisesaying.function.saying.None;
 import com.likelion.wisesaying.function.saying.Register;
 import com.likelion.wisesaying.function.saying.Update;
 import com.likelion.wisesaying.language.KoreaConstContent;
@@ -16,7 +17,6 @@ public enum MainCollection {
     DELETE(KoreaConstContent.DELETE, new Delete()),
     BUILD(KoreaConstContent.BUILD, new Build()),
     END(KoreaConstContent.END, new End());
-
 
     private final String path;
     private final IMainControllable function;
@@ -32,6 +32,6 @@ public enum MainCollection {
                 return controller.function;
             }
         }
-        throw new IllegalArgumentException(KoreaConstContent.NONE_COMMEND);
+        return new None();
     }
 }

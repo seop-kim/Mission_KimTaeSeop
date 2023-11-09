@@ -41,7 +41,7 @@ public class SayingService {
 
     public Long save(Saying saying) {
         Long saveId = GENERATOR.createId();
-        saying.setId(saveId);
+        saying.addId(saveId);
         DB_TYPE.save(saying);
 
         return saveId;
